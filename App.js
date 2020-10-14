@@ -1,21 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import MainNavigation from "./app/routes/MainNavigation";
+import { useFonts } from "expo-font";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+//Components
+import Loading from "./app/components/Loading";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [fontLoaded] = useFonts({
+    "Ionicons": require("./node_modules/react-native-ionicons/fonts/Ionicons.ttf"),
+    "Almarai-Light": require("./app/assets/fonts/Almarai-Light.ttf"),
+    "Almarai-Regular": require("./app/assets/fonts/Almarai-Regular.ttf"),
+    "Almarai-Bold": require("./app/assets/fonts/Almarai-Bold.ttf"),
+    "Almarai-ExtraBold": require("./app/assets/fonts/Almarai-ExtraBold.ttf"),
+  });
+
+  return fontLoaded ? <MainNavigation isLoggedIn={isLoggedIn}/> : <Loading />;
+};
+
+export default App;
