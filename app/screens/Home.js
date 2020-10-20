@@ -14,14 +14,18 @@ import {
 const window = Dimensions.get("window");
 
 //Assets
-import Colors from "../assets/Colors";
+import Colors from "../settings/Colors";
+
+//Components
+import ActiveChat from "../components/ActiveChat";
+import InactiveChat from "../components/InactiveChat";
 
 const Home = ({ navigation }) => {
   const [activeChats, setActiveChats] = useState([
     {
       _id: "15689456",
       title: "هنا يوضع عنوان المحادثة",
-      expDate: 1602612260525,
+      expDate: 1602984720000,
       firstUsername: "Ahmed",
       secondUsername: "Mahmoud",
       chatNumber: 51689117,
@@ -30,7 +34,7 @@ const Home = ({ navigation }) => {
     {
       _id: "15689456",
       title: "هنا يوضع عنوان المحادثة",
-      expDate: 1602612260525,
+      expDate: 1602684725100,
       firstUsername: "Ahmed",
       secondUsername: "Mahmoud",
       chatNumber: 51689117,
@@ -38,7 +42,17 @@ const Home = ({ navigation }) => {
     },
   ]);
 
-  const [inactiveChats, setInactiveChats] = useState([]);
+  const [inactiveChats, setInactiveChats] = useState([
+    {
+      _id: "15689456",
+      title: "هنا يوضع عنوان المحادثة",
+      expDate: 1602682030456,
+      firstUsername: "Ahmed",
+      secondUsername: "Mahmoud",
+      chatNumber: 51689117,
+      status: "inactive",
+    },
+  ]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -65,8 +79,8 @@ const Home = ({ navigation }) => {
           <Text style={styles.headText}>المحادثات الفعالة</Text>
           <View style={styles.headDot}></View>
         </View>
-        {activeChats.length === 0 ? (
-          <View></View>
+        {activeChats.length !== 0 ? (
+          activeChats.map((chat, i) => <ActiveChat key={i} chat={chat} />)
         ) : (
           <Text style={styles.noChatText}>
             لا يوجد محادثات فعالة حاليا ، يمكنك انشاء محادثة جديدة بالضغط علي
@@ -80,22 +94,23 @@ const Home = ({ navigation }) => {
           ></View>
         </View>
         {inactiveChats.length !== 0 ? (
-          <View></View>
+          inactiveChats.map((chat, i) => <InactiveChat key={i} chat={chat} />)
         ) : (
           <Text style={styles.noChatText}>ليس هناك أي محادثات منتهية</Text>
         )}
+        <View style={styles.emptyView}></View>
       </ScrollView>
-      <View style={styles.bottomBar}>
-        <View style={styles.addNewContainer}>
-          <TouchableNativeFeedback
-            onPress={() => navigation.navigate("NewChat")}
-          >
-            <View style={styles.addNewBtn}>
-              <View style={styles.lineOne}></View>
-              <View style={styles.lineTwo}></View>
-            </View>
-          </TouchableNativeFeedback>
-        </View>
+      <View style={styles.bottomBar}></View>
+      <View style={styles.addNewContainer}>
+        <TouchableNativeFeedback
+          useForeground
+          onPress={() => navigation.navigate("NewChat")}
+        >
+          <View style={styles.addNewBtn}>
+            <View style={styles.lineOne}></View>
+            <View style={styles.lineTwo}></View>
+          </View>
+        </TouchableNativeFeedback>
       </View>
     </View>
   );
@@ -132,25 +147,33 @@ const styles = StyleSheet.create({
   bodyContainer: {
     backgroundColor: Colors.lightBlue,
   },
+  emptyView: {
+    height: 150,
+  },
   bottomBar: {
     width: "100%",
     backgroundColor: Colors.black,
+    height: 60,
+    position: "absolute",
+    bottom: 0,
   },
   addNewContainer: {
+    position: "absolute",
+    bottom: 60 / 4 + 4,
     width: window.width * 0.21,
     height: window.width * 0.21,
     borderRadius: (window.width * 0.21) / 2,
-    bottom: (window.width * 0.21) / 2 + 3,
     backgroundColor: Colors.lightBlue,
-    zIndex: 2,
     alignSelf: "center",
+    borderTopColor: "transparent",
+    borderTopWidth: (window.width * 0.21) / 2,
   },
   addNewBtn: {
     width: window.width * 0.18,
     height: window.width * 0.18,
     borderRadius: (window.width * 0.18) / 2,
     backgroundColor: Colors.red,
-    top: 5,
+    bottom: (window.width * 0.21) / 2 - 5,
     elevation: 5,
     justifyContent: "center",
     alignItems: "center",

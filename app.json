@@ -17,7 +17,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.alwaseet.site",
+      "buildNumber": "1",
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-6349400119652128~5352320910"
+      }
+    },
+    "android": {
+      "package": "com.alwaseet.site",
+      "versionCode": 1,
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-6349400119652128~9799349302"
+      }
     },
     "web": {
       "favicon": "./app/assets/main-img/favicon.png"

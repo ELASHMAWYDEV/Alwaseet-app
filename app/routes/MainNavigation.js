@@ -40,7 +40,7 @@ const MainNavigation = ({ isLoggedIn }) => {
           component={NewChat}
           options={{
             cardStyleInterpolator:
-              CardStyleInterpolators.forModalPresentationIOS,
+              CardStyleInterpolators.forFadeFromBottomAndroid,
           }}
         />
         <Stack.Screen
@@ -48,7 +48,7 @@ const MainNavigation = ({ isLoggedIn }) => {
           component={ChatCreated}
           options={{
             cardStyleInterpolator:
-              CardStyleInterpolators.forModalPresentationIOS,
+              CardStyleInterpolators.forFadeFromBottomAndroid,
           }}
         />
         <Stack.Screen name="SuccessRegister" component={SuccessRegister} />

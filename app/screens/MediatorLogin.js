@@ -11,7 +11,7 @@ import {
 import Icon from "react-native-ionicons";
 
 //Assets
-import Colors from "../assets/Colors";
+import Colors from "../settings/Colors";
 
 const MediatorLogin = ({ navigation }) => {
   const [user, setUser] = useState("");

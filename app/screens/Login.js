@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 //Assets
-import Colors from "../assets/Colors";
+import Colors from "../settings/Colors";
 
 const Login = ({ navigation }) => {
   const [tempUsername, setTempUsername] = useState("");
