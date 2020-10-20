@@ -147,7 +147,7 @@ const NewChat = ({ navigation }) => {
           </TouchableNativeFeedback>
         </View>
       </View>
-      <TouchableNativeFeedback onPress={() => null} useForeground>
+      <TouchableNativeFeedback onPress={() => navigation.navigate("ChatCreated")} useForeground>
         <View style={styles.createChatBtn}>
           <Text style={styles.createChatText}>انشاء المحادثة</Text>
         </View>
