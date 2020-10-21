@@ -6,3 +6,4 @@ export { default as MediatorLogin } from "./MediatorLogin";
 export { default as MediatorRegister } from "./MediatorRegister";
 export { default as NewChat } from "./NewChat";
 export { default as SuccessRegister } from "./SuccessRegister";
+export { default as Rate } from "./Rate";

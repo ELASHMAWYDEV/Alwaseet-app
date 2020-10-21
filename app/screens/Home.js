@@ -21,6 +21,8 @@ import ActiveChat from "../components/ActiveChat";
 import InactiveChat from "../components/InactiveChat";
 
 const Home = ({ navigation }) => {
+
+
   const [activeChats, setActiveChats] = useState([
     {
       _id: "15689456",
@@ -57,7 +59,7 @@ const Home = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => null}>
+        <TouchableOpacity onPress={() => navigation.navigate("Rate")}>
           <Image
             source={require("../assets/img/star.png")}
             style={styles.starImage}

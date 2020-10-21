@@ -52,12 +52,17 @@ const ActiveChat = ({ chat }) => {
         </Text>
       </View>
       <View style={styles.bottomContainer}>
-        <TouchableNativeFeedback onPress={() => null} useForeground>
+        <TouchableNativeFeedback onPress={() => null} useForeground background={TouchableNativeFeedback.Ripple(Colors.black)}>
           <View style={styles.btn}>
             <Text style={styles.btnText}>دخول</Text>
           </View>
         </TouchableNativeFeedback>
-        <TouchableNativeFeedback onPress={() => null} useForeground>
+        <TouchableNativeFeedback onPress={() => null} useForeground background={TouchableNativeFeedback.Ripple(Colors.white)}>
+          <View style={[styles.btn, {backgroundColor: Colors.black}]}>
+            <Text style={styles.btnText}>تعديل</Text>
+          </View>
+        </TouchableNativeFeedback>
+        <TouchableNativeFeedback onPress={() => null} useForeground background={TouchableNativeFeedback.Ripple(Colors.white)}>
           <View style={[styles.btn, { backgroundColor: Colors.red }]}>
             <Text style={styles.btnText}>انهاءالمحادثة</Text>
           </View>
@@ -120,8 +125,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: Colors.green,
-    width: 140,
-    paddingVertical: 7,
+    width: 100,
+    paddingVertical: 3,
     borderRadius: 25,
     borderWidth: 1,
     borderColor: Colors.lightYellow,
@@ -129,7 +134,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontFamily: "Almarai-Regular",
-    fontSize: 16,
+    fontSize: 14,
     color: Colors.white,
   },
 });

@@ -180,7 +180,7 @@ const Chat = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => null}>
+        <TouchableOpacity onPress={() => navigation.navigate("Rate")}>
           <Image
             source={require("../assets/img/star.png")}
             style={styles.starImage}

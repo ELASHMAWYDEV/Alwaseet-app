@@ -16,6 +16,7 @@ import {
   MediatorRegister,
   NewChat,
   SuccessRegister,
+  Rate
 } from "../screens/index";
 
 const Stack = createStackNavigator();
@@ -46,6 +47,14 @@ const MainNavigation = ({ isLoggedIn }) => {
         <Stack.Screen
           name="ChatCreated"
           component={ChatCreated}
+          options={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forFadeFromBottomAndroid,
+          }}
+        />
+        <Stack.Screen
+          name="Rate"
+          component={Rate}
           options={{
             cardStyleInterpolator:
               CardStyleInterpolators.forFadeFromBottomAndroid,
