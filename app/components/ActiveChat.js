@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableNativeFeedback, TouchableHighlight } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableNativeFeedback,
+  TouchableHighlight,
+} from "react-native";
 
 //Assets
 import Colors from "../settings/Colors";
 
+//Helpers
+import getRemainingTime from "../helpers/getRemainingTime";
+
 const ActiveChat = ({ chat }) => {
-  const [expDate, setExpDate] = useState(getTime(chat.expDate));
+  const [expDate, setExpDate] = useState(getRemainingTime(chat.expDate));
 
   useEffect(() => {
-    setInterval(() => setExpDate(getTime(chat.expDate)), 1000);
+    setInterval(() => setExpDate(getRemainingTime(chat.expDate)), 1000);
   }, []);
 
   return (
@@ -56,24 +65,6 @@ const ActiveChat = ({ chat }) => {
       </View>
     </View>
   );
-};
-
-//Format the date and get remaining time
-const getTime = (expDate) => {
-  let timeleft = expDate - new Date().getTime();
-  var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
-
-  let secondsText = `${seconds} ثانية`;
-  let minutesText = minutes > 0 ? `${minutes} دقيقة` : "";
-  let hoursText = hours > 0 ? `${hours} ساعة` : "";
-  let daysText = days > 0 ? `${days} يوم` : "";
-
-  let remainingTime = `${daysText} ${hoursText} ${minutesText} ${secondsText}`;
-
-  return remainingTime;
 };
 
 const styles = StyleSheet.create({
