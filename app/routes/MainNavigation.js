@@ -1,25 +1,25 @@
-import React from 'react';
-
+import React from "react";
 
 //Navigation
 import AuthNavigation from "./AuthNavigation";
 import UserNavigation from "./UserNavigation";
+import ChatUserNavigation from "./ChatUserNavigation";
 
 //Helpers
-import { useIsLoggedIn } from "../helpers/AuthContext";
+import { useIsLoggedIn, useIsChatLoggedIn } from "../helpers/AuthContext";
 
 const MainNavigation = () => {
   const isLoggedIn = useIsLoggedIn();
+  const isChatLoggedIn = useIsChatLoggedIn();
 
 
-
-  return (
-    isLoggedIn ? <UserNavigation /> : <AuthNavigation />
+  return isChatLoggedIn ? (
+    <ChatUserNavigation />
+  ) : isLoggedIn ? (
+    <UserNavigation />
+  ) : (
+    <AuthNavigation />
   );
-
-  
-}
-
-
+};
 
 export default MainNavigation;

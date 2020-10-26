@@ -30,8 +30,8 @@ export const AuthProvider = ({ children }) => {
   const [isChatLoggedIn, setIsChatLoggedIn] = useState(false);
 
   useEffect(() => {
-    checkLoggedIn();
     checkChatLoggedIn();
+    checkLoggedIn();
   }, []);
 
   const login = async (user, password) => {
@@ -70,6 +70,7 @@ export const AuthProvider = ({ children }) => {
       await SecureStore.deleteItemAsync("access_token");
       await SecureStore.deleteItemAsync("user");
       setIsAuthenticated(false);
+      setIsChatLoggedIn(false);
       setIsLoading(false);
     } catch (e) {
       alert(e.message);
@@ -81,13 +82,18 @@ export const AuthProvider = ({ children }) => {
     try {
       setIsLoading(true);
       const accessToken = await SecureStore.getItemAsync("access_token");
-      const user = await SecureStore.getItemAsync("user");
+      let user = await SecureStore.getItemAsync("user");
       if (!user || !accessToken) {
         setIsAuthenticated(false);
         setIsLoading(false);
         return false;
       } else {
-        setIsAuthenticated(true);
+        user = JSON.parse(user);
+        if (!user.chatNumber) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
         setIsLoading(false);
         return true;
       }
@@ -110,18 +116,18 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(false);
         return data;
       }
-
+      
       //store access token
       await SecureStore.setItemAsync(
         "access_token",
         JSON.stringify(data.accessToken)
-      );
-
-      //store the chat user
-      await SecureStore.setItemAsync("user", JSON.stringify(data.user));
-      setIsAuthenticated(true);
-      setIsLoading(false);
-      return {
+        );
+        
+        //store the chat user
+        await SecureStore.setItemAsync("user", JSON.stringify(data.user));
+        setIsChatLoggedIn(true);
+        setIsLoading(false);
+        return {
         success: true,
         messages: data.messages,
       };
@@ -135,7 +141,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setIsLoading(true);
       const accessToken = await SecureStore.getItemAsync("access_token");
-      const user = await SecureStore.getItemAsync("user");
+      let user = await SecureStore.getItemAsync("user");
       if (!user || !accessToken) {
         setIsChatLoggedIn(false);
         setIsLoading(false);

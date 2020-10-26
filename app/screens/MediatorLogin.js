@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -9,6 +9,8 @@ import {
   ScrollView,
 } from "react-native";
 import Icon from "react-native-ionicons";
+import * as SecureStore from "expo-secure-store";
+
 
 //Assets
 import Colors from "../settings/Colors";
@@ -21,6 +23,34 @@ const MediatorLogin = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   const login = useLogin();
+
+
+  useEffect(() => {
+    retreiveUserAccess();
+  }, []);
+  const retreiveUserAccess = async () => {
+    try {
+      setUser(await SecureStore.getItemAsync("user-login"));
+      setPassword(await SecureStore.getItemAsync("user-password"));
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  //Store chat credentials on storage ===> for fast login
+  useEffect(() => {
+    storeUserAccess();
+  }, [user, password]);
+
+  const storeUserAccess = async () => {
+    try {
+      await SecureStore.setItemAsync("user-login", user);
+      await SecureStore.setItemAsync("user-password", password);
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
 
   return (
     <ScrollView style={styles.container}>
@@ -40,12 +70,15 @@ const MediatorLogin = ({ navigation }) => {
           placeholder="اسم المستخدم أو البريد الالكتروني"
           style={styles.input}
           onChangeText={setUser}
+          value={user}
         />
         <Text style={styles.inputTitle}>كلمة المرور</Text>
         <TextInput
           placeholder="كلمة المرور"
+          secureTextEntry
           style={styles.input}
           onChangeText={setPassword}
+          value={password}
         />
         <TouchableNativeFeedback onPress={() => login(user, password)}>
           <View style={styles.LoginBtn}>

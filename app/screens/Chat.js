@@ -13,7 +13,6 @@ import { TextInput } from "react-native-gesture-handler";
 import Icon from "react-native-ionicons";
 import { Audio } from 'expo-av';
 
-
 //Assets
 import Colors from "../settings/Colors";
 

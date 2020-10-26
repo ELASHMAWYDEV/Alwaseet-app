@@ -8,15 +8,45 @@ import {
   TouchableNativeFeedback,
   ScrollView,
 } from "react-native";
+import * as SecureStore from "expo-secure-store";
 
 //Assets
 import Colors from "../settings/Colors";
 
+//Helpers
+import { useChatLogin } from "../helpers/AuthContext";
+
 const Login = ({ navigation }) => {
-  const [tempUsername, setTempUsername] = useState("");
-  const [tempChatId, setTempChatId] = useState("");
+  const [password, setPassword] = useState("");
+  const [chatNumber, setChatNumber] = useState("");
+  const login = useChatLogin();
 
+  useEffect(() => {
+    retreiveChatAccess();
+  }, []);
+  const retreiveChatAccess = async () => {
+    try {
+      setChatNumber(await SecureStore.getItemAsync("chat-number"));
+      setPassword(await SecureStore.getItemAsync("chat-password"));
+      console.log(await SecureStore.getItemAsync("chat-password"));
+    } catch (e) {
+      alert(e.message);
+    }
+  };
 
+  //Store chat credentials on storage ===> for fast login
+  useEffect(() => {
+    storeChatAccess();
+  }, [chatNumber, password]);
+
+  const storeChatAccess = async () => {
+    try {
+      await SecureStore.setItemAsync("chat-number", chatNumber);
+      await SecureStore.setItemAsync("chat-password", password);
+    } catch (e) {
+      alert(e.message);
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -29,17 +59,19 @@ const Login = ({ navigation }) => {
         <TextInput
           placeholder="رقم المحادثة المؤقتة"
           style={styles.input}
-          onChangeText={setTempChatId}
+          onChangeText={setChatNumber}
+          value={chatNumber}
         />
         <Text style={styles.inputTitle}>كلمة المرور المؤقتة</Text>
         <TextInput
           placeholder="كلمة المرور المؤقتة"
           style={[styles.input, { textAlign: "right" }]}
-          onChangeText={setTempChatId}
+          onChangeText={setPassword}
+          value={password}
           secureTextEntry
         />
 
-        <TouchableNativeFeedback onPress={() => navigation.navigate("Chat")}>
+        <TouchableNativeFeedback onPress={() => login(chatNumber, password)}>
           <View style={styles.startChatBtn}>
             <Text style={styles.startChatText}>بدء المحادثة</Text>
           </View>
