@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -13,9 +13,14 @@ import Icon from "react-native-ionicons";
 //Assets
 import Colors from "../settings/Colors";
 
+//Context
+import { useLogin } from "../helpers/AuthContext";
+
 const MediatorLogin = ({ navigation }) => {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
+
+  const login = useLogin();
 
   return (
     <ScrollView style={styles.container}>
@@ -42,7 +47,7 @@ const MediatorLogin = ({ navigation }) => {
           style={styles.input}
           onChangeText={setPassword}
         />
-        <TouchableNativeFeedback onPress={() => navigation.navigate("Home")}>
+        <TouchableNativeFeedback onPress={() => login(user, password)}>
           <View style={styles.LoginBtn}>
             <Text style={styles.LoginText}>تسجيل الدخول</Text>
           </View>

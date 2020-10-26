@@ -19,12 +19,14 @@ import Colors from "../settings/Colors";
 
 //Helpers
 import formatTime from "../helpers/formatTime";
-
+import { useLogout } from "../helpers/AuthContext";
 
 
 const Chat = ({ navigation }) => {
   const chatContainer = useRef();
   const chatInputRef = useRef();
+
+  const logout = useLogout();
 
   const [chatInput, setChatInput] = useState("");
   const [userId, setUserId] = useState("");
@@ -190,7 +192,7 @@ const Chat = ({ navigation }) => {
           source={require("../assets/img/logo.png")}
           style={styles.logoImage}
         />
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity onPress={logout}>
           <Image
             source={require("../assets/img/logout.png")}
             style={styles.logoutImage}

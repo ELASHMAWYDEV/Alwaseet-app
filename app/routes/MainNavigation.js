@@ -1,69 +1,25 @@
-import React from "react";
-import { View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import {
-  createStackNavigator,
-  CardStyleInterpolators,
-} from "@react-navigation/stack";
+import React from 'react';
 
-//Screens
-import {
-  Chat,
-  ChatCreated,
-  Home,
-  Login,
-  MediatorLogin,
-  MediatorRegister,
-  NewChat,
-  SuccessRegister,
-  Rate
-} from "../screens/index";
 
-const Stack = createStackNavigator();
+//Navigation
+import AuthNavigation from "./AuthNavigation";
+import UserNavigation from "./UserNavigation";
 
-const MainNavigation = ({ isLoggedIn }) => {
+//Helpers
+import { useIsLoggedIn } from "../helpers/AuthContext";
+
+const MainNavigation = () => {
+  const isLoggedIn = useIsLoggedIn();
+
+
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-        initialRouteName={isLoggedIn ? "Home" : "Login"}
-      >
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Chat" component={Chat} />
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="MediatorLogin" component={MediatorLogin} />
-        <Stack.Screen name="MediatorRegister" component={MediatorRegister} />
-        <Stack.Screen
-          name="NewChat"
-          component={NewChat}
-          options={{
-            cardStyleInterpolator:
-              CardStyleInterpolators.forFadeFromBottomAndroid,
-          }}
-        />
-        <Stack.Screen
-          name="ChatCreated"
-          component={ChatCreated}
-          options={{
-            cardStyleInterpolator:
-              CardStyleInterpolators.forFadeFromBottomAndroid,
-          }}
-        />
-        <Stack.Screen
-          name="Rate"
-          component={Rate}
-          options={{
-            cardStyleInterpolator:
-              CardStyleInterpolators.forFadeFromBottomAndroid,
-          }}
-        />
-        <Stack.Screen name="SuccessRegister" component={SuccessRegister} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    isLoggedIn ? <UserNavigation /> : <AuthNavigation />
   );
-};
+
+  
+}
+
+
 
 export default MainNavigation;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -11,18 +11,23 @@ import {
   Dimensions,
 } from "react-native";
 
-const window = Dimensions.get("window");
+//Helpers
+import { useLogout } from "../helpers/AuthContext";
 
 //Assets
 import Colors from "../settings/Colors";
+
 
 //Components
 import ActiveChat from "../components/ActiveChat";
 import InactiveChat from "../components/InactiveChat";
 
-const Home = ({ navigation }) => {
 
+const window = Dimensions.get("window");
 
+const Home = ({ navigation, route }) => {
+
+  const logout = useLogout();
   const [activeChats, setActiveChats] = useState([
     {
       _id: "15689456",
@@ -69,7 +74,7 @@ const Home = ({ navigation }) => {
           source={require("../assets/img/logo.png")}
           style={styles.logoImage}
         />
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity onPress={logout}>
           <Image
             source={require("../assets/img/logout.png")}
             style={styles.logoutImage}

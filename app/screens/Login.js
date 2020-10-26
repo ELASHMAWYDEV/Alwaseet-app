@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -16,6 +16,8 @@ const Login = ({ navigation }) => {
   const [tempUsername, setTempUsername] = useState("");
   const [tempChatId, setTempChatId] = useState("");
 
+
+
   return (
     <ScrollView style={styles.container}>
       <Image
@@ -28,12 +30,6 @@ const Login = ({ navigation }) => {
           placeholder="رقم المحادثة المؤقتة"
           style={styles.input}
           onChangeText={setTempChatId}
-        />
-        <Text style={styles.inputTitle}>اسم المستخدم المؤقت</Text>
-        <TextInput
-          placeholder="اسم المستخدم المؤقت"
-          style={styles.input}
-          onChangeText={setTempUsername}
         />
         <Text style={styles.inputTitle}>كلمة المرور المؤقتة</Text>
         <TextInput
