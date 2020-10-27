@@ -10,6 +10,7 @@ const LoginContext = createContext();
 const LogoutContext = createContext();
 const CheckLoggedInContext = createContext();
 const IsLoadingContext = createContext();
+const SetIsLoadingContext = createContext();
 const ChatLoginContext = createContext();
 const IsChatLoggedInContext = createContext();
 const CheckChatLoggedInContext = createContext();
@@ -20,6 +21,7 @@ export const useLogin = () => useContext(LoginContext);
 export const useLogout = () => useContext(LogoutContext);
 export const useCheckLoggedIn = () => useContext(CheckLoggedInContext);
 export const useIsLoading = () => useContext(IsLoadingContext);
+export const useSetIsLoading = () => useContext(SetIsLoadingContext);
 export const useChatLogin = () => useContext(ChatLoginContext);
 export const useIsChatLoggedIn = () => useContext(IsChatLoggedInContext);
 export const useCheckChatLoggedIn = () => useContext(CheckChatLoggedInContext);
@@ -58,6 +60,7 @@ export const AuthProvider = ({ children }) => {
         messages: data.messages,
       };
     } catch (e) {
+      console.log(e);
       alert(e.message);
       setIsLoading(false);
     }
@@ -81,14 +84,15 @@ export const AuthProvider = ({ children }) => {
   const checkLoggedIn = async () => {
     try {
       setIsLoading(true);
-      const accessToken = await SecureStore.getItemAsync("access_token");
-      let user = await SecureStore.getItemAsync("user");
+      const accessToken = JSON.parse(
+        await SecureStore.getItemAsync("access_token")
+      );
+      let user = JSON.parse(await SecureStore.getItemAsync("user"));
       if (!user || !accessToken) {
         setIsAuthenticated(false);
         setIsLoading(false);
         return false;
       } else {
-        user = JSON.parse(user);
         if (!user.chatNumber) {
           setIsAuthenticated(true);
         } else {
@@ -116,18 +120,18 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(false);
         return data;
       }
-      
+
       //store access token
       await SecureStore.setItemAsync(
         "access_token",
         JSON.stringify(data.accessToken)
-        );
-        
-        //store the chat user
-        await SecureStore.setItemAsync("user", JSON.stringify(data.user));
-        setIsChatLoggedIn(true);
-        setIsLoading(false);
-        return {
+      );
+
+      //store the chat user
+      await SecureStore.setItemAsync("user", JSON.stringify(data.user));
+      setIsChatLoggedIn(true);
+      setIsLoading(false);
+      return {
         success: true,
         messages: data.messages,
       };
@@ -172,8 +176,10 @@ export const AuthProvider = ({ children }) => {
               <IsChatLoggedInContext.Provider value={isChatLoggedIn}>
                 <CheckChatLoggedInContext.Provider value={checkChatLoggedIn}>
                   <IsLoadingContext.Provider value={isLoading}>
-                    {isLoading && <Loading />}
-                    {children}
+                    <SetIsLoadingContext.Provider value={setIsLoading}>
+                      {isLoading && <Loading />}
+                      {children}
+                    </SetIsLoadingContext.Provider>
                   </IsLoadingContext.Provider>
                 </CheckChatLoggedInContext.Provider>
               </IsChatLoggedInContext.Provider>

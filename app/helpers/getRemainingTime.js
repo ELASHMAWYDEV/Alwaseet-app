@@ -1,6 +1,8 @@
+import formatTime from "./formatTime";
+
 //Format the date and get remaining time
 const getRemainingTime = (expDate) => {
-  let timeleft = expDate - new Date().getTime();
+  let timeleft = expDate - Date.now();
   var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
   var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
@@ -12,6 +14,9 @@ const getRemainingTime = (expDate) => {
   let daysText = days > 0 ? `${days} يوم` : "";
 
   let remainingTime = `${daysText} ${hoursText} ${minutesText} ${secondsText}`;
+  if (timeleft < 0) {
+    remainingTime = formatTime(expDate);
+  }
 
   return remainingTime;
 };

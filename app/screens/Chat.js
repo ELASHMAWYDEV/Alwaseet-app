@@ -148,6 +148,9 @@ const Chat = ({ navigation }) => {
   }, []);
 
   const sendMsg = async () => {
+    
+    if (chatInput.trim() == "") return alert("لا يمكنك ارسال رسالة فارغة");
+
     //add the message to state
     let msg = {
       id: Math.floor(Math.random(1)), //Temporary
@@ -172,7 +175,6 @@ const Chat = ({ navigation }) => {
     try {
       await soundObject.loadAsync(require('../assets/sound/message-sent.mp3'));
       await soundObject.playAsync();
-      await soundObject.unloadAsync();
     } catch (e) {
       alert(e.message);
     }

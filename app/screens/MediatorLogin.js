@@ -30,9 +30,10 @@ const MediatorLogin = ({ navigation }) => {
   }, []);
   const retreiveUserAccess = async () => {
     try {
-      setUser(await SecureStore.getItemAsync("user-login"));
-      setPassword(await SecureStore.getItemAsync("user-password"));
+      setUser(JSON.parse(await SecureStore.getItemAsync("user-login")));
+      setPassword(JSON.parse(await SecureStore.getItemAsync("user-password")));
     } catch (e) {
+      console.log(e);
       alert(e.message);
     }
   };
@@ -44,9 +45,10 @@ const MediatorLogin = ({ navigation }) => {
 
   const storeUserAccess = async () => {
     try {
-      await SecureStore.setItemAsync("user-login", user);
-      await SecureStore.setItemAsync("user-password", password);
+      await SecureStore.setItemAsync("user-login", JSON.stringify(user));
+      await SecureStore.setItemAsync("user-password", JSON.stringify(password));
     } catch (e) {
+      console.log(e);
       alert(e.message);
     }
   };

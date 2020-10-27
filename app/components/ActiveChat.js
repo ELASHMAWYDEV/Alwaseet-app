@@ -14,11 +14,14 @@ import Colors from "../settings/Colors";
 import getRemainingTime from "../helpers/getRemainingTime";
 
 const ActiveChat = ({ chat }) => {
-  const [expDate, setExpDate] = useState(getRemainingTime(chat.expDate));
+  const [endTime, setEndTime] = useState(getRemainingTime(chat.endTime));
 
   useEffect(() => {
-    setInterval(() => setExpDate(getRemainingTime(chat.expDate)), 1000);
+    setInterval(() => setEndTime(getRemainingTime(chat.endTime)), 1000);
   }, []);
+
+
+
 
   return (
     <View style={styles.container}>
@@ -35,19 +38,19 @@ const ActiveChat = ({ chat }) => {
         </Text>
       </Text>
       <Text style={styles.label}>
-        متبقي: <Text style={styles.labelValue}>{expDate}</Text>
+        متبقي: <Text style={styles.labelValue}>{endTime}</Text>
       </Text>
       <View style={styles.usersLabels}>
         <Text style={styles.label} selectable>
           المستخدم الأول:{" "}
           <Text style={styles.labelValue} selectable>
-            {chat.firstUsername}
+            {chat.userOne}
           </Text>
         </Text>
         <Text style={styles.label} selectable>
           المستخدم الثاني:{" "}
           <Text style={styles.labelValue} selectable>
-            {chat.secondUsername}
+            {chat.userTwo}
           </Text>
         </Text>
       </View>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,9 +10,10 @@ import {
   StatusBar,
   Dimensions,
 } from "react-native";
+import axios from "axios";
 
 //Helpers
-import { useLogout } from "../helpers/AuthContext";
+import { useLogout, useSetIsLoading } from "../helpers/AuthContext";
 
 //Assets
 import Colors from "../settings/Colors";
@@ -25,41 +26,48 @@ import InactiveChat from "../components/InactiveChat";
 
 const window = Dimensions.get("window");
 
-const Home = ({ navigation, route }) => {
+const Home = ({ navigation }) => {
 
+  const setIsLoading = useSetIsLoading();
   const logout = useLogout();
-  const [activeChats, setActiveChats] = useState([
-    {
-      _id: "15689456",
-      title: "هنا يوضع عنوان المحادثة",
-      expDate: 1602984720000,
-      firstUsername: "Ahmed",
-      secondUsername: "Mahmoud",
-      chatNumber: 51689117,
-      status: "active",
-    },
-    {
-      _id: "15689456",
-      title: "هنا يوضع عنوان المحادثة",
-      expDate: 1602684725100,
-      firstUsername: "Ahmed",
-      secondUsername: "Mahmoud",
-      chatNumber: 51689117,
-      status: "active",
-    },
-  ]);
+  const [activeChats, setActiveChats] = useState([]);
+  const [inactiveChats, setInactiveChats] = useState([]);
 
-  const [inactiveChats, setInactiveChats] = useState([
-    {
-      _id: "15689456",
-      title: "هنا يوضع عنوان المحادثة",
-      expDate: 1602682030456,
-      firstUsername: "Ahmed",
-      secondUsername: "Mahmoud",
-      chatNumber: 51689117,
-      status: "inactive",
-    },
-  ]);
+  useEffect(() => {
+    getChats();
+  }, []);
+  
+  const getChats = async () => {
+    try {
+      setIsLoading(true);
+      let response = await axios.post("/get-chats");
+      let data = await response.data;
+
+      //If errors occurred
+      if (!data.success) {
+        setIsLoading(false);
+        return alert(data.errors);
+      }
+
+      //Set the chats
+      let active = [];
+      let inactive = [];
+      data.chats.forEach(chat => {
+        if (chat.active) {
+          active.push(chat);
+        } else {
+          inactive.push(chat);
+        }
+      });
+      setActiveChats(active);
+      setInactiveChats(inactive);
+
+      setIsLoading(false);
+    } catch (e) {
+      alert(e.message);
+      setIsLoading(false);
+    }
+  }
 
   return (
     <View style={{ flex: 1 }}>

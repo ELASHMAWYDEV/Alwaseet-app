@@ -32,7 +32,7 @@ const App = () => {
     //Axios configuration
     const accessToken = await SecureStore.getItemAsync("access_token");
     axios.defaults.baseURL = API;
-    axios.defaults.headers.post["autherization"] = `Bearer ${JSON.parse(accessToken)}`;
+    axios.defaults.headers.post["Authorization"] = `Bearer ${JSON.parse(accessToken)}`;
     axios.defaults.headers.post["Accept"] = "application/json";
   };
 

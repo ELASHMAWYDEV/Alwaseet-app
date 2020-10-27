@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableNativeFeedback, TouchableHighlight } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableNativeFeedback,
+  TouchableHighlight,
+} from "react-native";
 
 //Assets
 import Colors from "../settings/Colors";
@@ -8,10 +14,10 @@ import Colors from "../settings/Colors";
 import getRemainingTime from "../helpers/getRemainingTime";
 
 const InactiveChat = ({ chat }) => {
-  const [expDate, setExpDate] = useState(getRemainingTime(chat.expDate));
+  const [endTime, setEndTime] = useState(getRemainingTime(chat.endTime));
 
   useEffect(() => {
-    setInterval(() => setExpDate(getRemainingTime(chat.expDate)), 1000);
+    setEndTime(getRemainingTime(chat.endTime));
   }, []);
 
   return (
@@ -28,22 +34,30 @@ const InactiveChat = ({ chat }) => {
           {chat.chatNumber}
         </Text>
       </Text>
-      <Text style={styles.label}>
-        متبقي: <Text style={styles.labelValue}>{expDate}</Text>
-      </Text>
+      <View style={styles.labelContainer}>
+        <Text style={styles.label}>انتهت المحادثة في:</Text>
+        <Text style={styles.labelValue}>
+          {endTime}
+        </Text>
+      </View>
       <View style={styles.usersLabels}>
-        <Text style={styles.label} selectable>
-          المستخدم الأول:{" "}
-          <Text style={styles.labelValue} selectable>
-            {chat.firstUsername}
+        <View style={styles.labelContainer}>
+          <Text style={styles.label} selectable>
+            المستخدم الأول:
+            <Text style={styles.labelValue} selectable>
+              {chat.userOne}
+            </Text>
           </Text>
-        </Text>
-        <Text style={styles.label} selectable>
-          المستخدم الثاني:{" "}
-          <Text style={styles.labelValue} selectable>
-            {chat.secondUsername}
+        </View>
+
+        <View style={styles.labelContainer}>
+          <Text style={styles.label} selectable>
+            المستخدم الثاني:
+            <Text style={styles.labelValue} selectable>
+              {chat.userTwo}
+            </Text>
           </Text>
-        </Text>
+        </View>
       </View>
       <View style={styles.bottomContainer}>
         <TouchableNativeFeedback onPress={() => null} useForeground>
@@ -60,8 +74,6 @@ const InactiveChat = ({ chat }) => {
     </View>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -92,6 +104,10 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     marginVertical: 3,
   },
+  labelContainer: {
+    flexDirection: "row-reverse",
+    alignItems: "center",
+  },
   label: {
     fontFamily: "Almarai-Regular",
     fontSize: 15,
@@ -101,6 +117,7 @@ const styles = StyleSheet.create({
   },
   labelValue: {
     color: Colors.lightBlue,
+    marginRight: 6,
   },
   usersLabels: {
     flexDirection: "row-reverse",
